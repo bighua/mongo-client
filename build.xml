@@ -1,0 +1,14 @@
+<project name="mongo-client" default="test" basedir="."
+         xmlns:ivy="antlib:org.apache.ivy.ant" 
+         xmlns:cs="antlib:com.puppycrawl.tools.checkstyle">
+  <description>
+    project description
+  </description>
+
+  <property name="version" value="1.0" />
+  
+  <property file="project.properties" />
+
+  <import file="plugins/build.xml" as="phases" />
+
+</project>
