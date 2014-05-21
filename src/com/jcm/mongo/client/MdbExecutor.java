@@ -102,6 +102,16 @@ public class MdbExecutor {
     }
     return null;
   }
+  
+  public WriteResult update(String dbName, String tableName, DBObject q ,DBObject o, boolean upsert, boolean multi) {
+    findMongoDB();
+    if (null != this.m) {
+      DB db = this.m.getDB(dbName);
+      DBCollection tb = db.getCollection(tableName);
+      return tb.update(q, o , upsert, multi);
+    }
+    return null;
+  }
 
   public void remove(String dbName, String tableName, Set<DBObject> list) {
     findMongoDB();
