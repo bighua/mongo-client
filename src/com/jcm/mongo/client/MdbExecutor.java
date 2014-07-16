@@ -1,9 +1,11 @@
 package com.jcm.mongo.client;
 
 import java.net.UnknownHostException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.CommandResult;
 import com.mongodb.DB;
@@ -231,6 +233,19 @@ public class MdbExecutor {
     	  return tb.findOne(query, keys);
       }
       
+    }
+    return null;
+  }
+
+  public Iterator<DBObject> aggregate(String dbName, String tableName, DBObject firstOp, DBObject... additionalOps) {
+    findMongoDB();
+    if (null != this.m) {
+      DB db = this.m.getDB(dbName);
+      DBCollection tb = db.getCollection(tableName);
+      AggregationOutput out = tb.aggregate(firstOp, additionalOps);
+      if (out.getCommandResult().ok()) {
+        return out.results().iterator();
+      }
     }
     return null;
   }
