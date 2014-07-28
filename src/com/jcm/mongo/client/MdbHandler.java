@@ -1,5 +1,7 @@
 package com.jcm.mongo.client;
 
+import com.mongodb.MongoClientURI;
+
 
 /**
  * 
@@ -11,6 +13,8 @@ public class MdbHandler{
    * 
    */
   private static final long serialVersionUID = 1L;
+  
+  private static final String MONGODB_PREFIX = "mongodb://";
   /**
    * 
    */
@@ -39,7 +43,11 @@ public class MdbHandler{
    */
   private void parseMdbUri(String mdbUri) {
     if (null != mdbUri) {
-      String[] ms = mdbUri.split(":");
+      if (!mdbUri.startsWith(MONGODB_PREFIX)) mdbUri = MONGODB_PREFIX + mdbUri;
+      MongoClientURI uri = new MongoClientURI(mdbUri);
+      if (uri.getHosts().size() == 0) return;
+      String host = uri.getHosts().get(0);
+      String[] ms = host.split(":");
       this.setHost(ms[0]);
       if (ms.length > 0) {
         try {
